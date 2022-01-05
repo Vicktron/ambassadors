@@ -21,6 +21,7 @@ class UserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email)
         )
+        user.id = id
         user.f_name = f_name
         user.l_name = l_name
         user.set_password(password)  # change password to hash
@@ -90,6 +91,10 @@ class Account(models.Model):
     amt_wallet = models.CharField(max_length=100)
     amt_staked = models.PositiveIntegerField(default=0)
     usd_staked = models.PositiveIntegerField(default=0)
+    # This is the total AMT gathered through referrals
+    amt_pooled = models.PositiveBigIntegerField(default=0)
+    usd_pooled = models.PositiveBigIntegerField(default=0)
+    # --------------------------------------------
     is_leader = models.BooleanField(default=False)
     is_regional = models.BooleanField(default=False)
     is_national = models.BooleanField(default=False)

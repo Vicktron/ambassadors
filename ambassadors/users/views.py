@@ -16,9 +16,11 @@ def signup_view(request):
         userform = UserForm(request.POST or None)
         form = RegistrationForm(request.POST or None)
         if userform.is_valid() and form.is_valid():
+            print('is valid', userform.is_valid())
             if profile_id is not None:
                 recommended_by_profile = Account.objects.get(id=profile_id)
 
+                userform.save()
                 instance = userform.save()
                 # form.save()
                 registered_user = User.objects.get(id=instance.id)
@@ -39,8 +41,6 @@ def signup_view(request):
         context = {'form': form, 'userform': userform}
         return render(request, 'page/signup.html', context)
 
-
-
 def main_view(request, *args, **kwargs):
     code = str(kwargs.get('ref_code'))
     try:
@@ -56,5 +56,17 @@ def main_view(request, *args, **kwargs):
 def dashboard(request):
     referrals = Account.objects.get(user=request.user)
     my_recs = referrals.get_recommended_profiles()
-    context = {'my_recs': my_recs}
+    count = len(my_recs)
+    ref_percentage = 0.0
+    for stake in my_recs:
+        ref_amt = stake.amt_staked
+        ref_percentage = ref_amt * 2/100
+
+    downline_percentage = (count/1000) * 100
+    amount = referrals.usd_pooled
+    points = amount/200000
+    points_percentage = points/6000 * 100
+    context = {'my_recs': my_recs, 'referrals': referrals,
+               'count': count, 'downline_percentage': downline_percentage,
+               'points': points, 'points_percentage': points_percentage, 'ref_percentage': ref_percentage}
     return render(request, 'page/dashboard.html', context)
