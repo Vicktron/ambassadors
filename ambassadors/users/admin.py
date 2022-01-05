@@ -30,7 +30,7 @@ class UserAdmin(auth_admin.UserAdmin):
     list_display_links = ('email', )
     readonly_fields = ('last_login', 'date_joined')
     search_fields = ["email"]
-    ordering = ('-date_joined',)
+    ordering = ['email']
 
     filter_horizontal = ()
     list_filter = ()

@@ -1,4 +1,4 @@
-from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import AbstractUser
 
 from config.settings import base as settings
@@ -47,11 +47,12 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractUser):
+class User(AbstractBaseUser):
     email = models.EmailField(max_length=100, unique=True)
     is_active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)  # a admin user; non super-user
     admin = models.BooleanField(default=False)  # a superuser
+    date_joined = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
