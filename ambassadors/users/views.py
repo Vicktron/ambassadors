@@ -64,8 +64,8 @@ def dashboard(request):
 
     downline_percentage = (count/1000) * 100
     amount = referrals.usd_pooled
-    points = amount/200000
-    points_percentage = points/6000 * 100
+    points = int(amount/33.33)
+    points_percentage = int(points/6000 * 100)
     context = {'my_recs': my_recs, 'referrals': referrals,
                'count': count, 'downline_percentage': downline_percentage,
                'points': points, 'points_percentage': points_percentage, 'ref_percentage': ref_percentage}

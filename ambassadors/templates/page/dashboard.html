@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load humanize %}
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
@@ -85,15 +86,15 @@
       <div class="projects-section-line">
         <div class="projects-status">
           <div class="item-status">
-            <span class="status-number">{{ count }}</span>
+            <span class="status-number">{{ count|intcomma }}</span>
             <span class="status-type">Downlines</span>
           </div>
           <div class="item-status">
-            <span class="status-number">{{ referrals.amt_pooled }}</span>
+            <span class="status-number">{{ referrals.amt_pooled|intcomma }}</span>
             <span class="status-type">$AMT</span>
           </div>
           <div class="item-status">
-            <span class="status-number">{{ referrals.usd_pooled }}</span>
+            <span class="status-number">{{ referrals.usd_pooled|intcomma }}</span>
             <span class="status-type">$USD</span>
           </div>
         </div>
@@ -158,7 +159,7 @@
     <div class="project-box-wrapper">
       <div class="project-box" style="background-color: #e9e7fd;">
         <div class="project-box-header">
-          <span>{{ count }}/1000 DownLines</span>
+          <span>{{ count|intcomma }}/1000 DownLines</span>
           <div class="more-wrapper">
             <button class="project-btn-more">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
@@ -182,7 +183,7 @@
         <div class="project-box-footer">
           <div class="participants">
             <button class="add-participant" style="color: #4f3ff0;">
-              {% if count == 1000 %}
+              {% if count >= 1000 %}
               <img src="https://img.icons8.com/windows/32/000000/unlock-2.png"/>
               {% else %}
               <img src="https://img.icons8.com/windows/32/000000/lock-2--v2.png"/>
@@ -196,7 +197,7 @@
               </button>
               {% else %}
               <button class="add-participant">
-                <del>Apply</del>
+                Apply
               </button>
               {% endif %}
             </div>
@@ -206,7 +207,7 @@
     <div class="project-box-wrapper">
       <div class="project-box">
         <div class="project-box-header">
-          <span>${{ referrals.usd_pooled }}/$200,000</span>
+          <span>${{ referrals.usd_pooled|intcomma }}/$200,000</span>
           <div class="more-wrapper">
             <button class="project-btn-more">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
@@ -218,7 +219,7 @@
         </div>
         <div class="project-box-content-header">
           <p class="box-content-header">$6000 Car Award</p>
-          <p class="box-content-subheader">Points: {{ points }}/6000</p>
+          <p class="box-content-subheader">Points: {{ points|intcomma }}/6000</p>
         </div>
         <div class="box-progress-wrapper">
           <p class="box-progress-header">Progress</p>
@@ -230,7 +231,7 @@
         <div class="project-box-footer">
           <div class="participants">
             <button class="add-participant" style="color: #4f3ff0;">
-              {% if points == 6000 %}
+              {% if points >= 6000 %}
               <img src="https://img.icons8.com/windows/32/000000/unlock-2.png"/>
               {% else %}
               <img src="https://img.icons8.com/windows/32/000000/lock-2--v2.png"/>
@@ -244,7 +245,7 @@
               </button>
               {% else %}
               <button class="add-participant">
-                <del>Apply</del>
+                Apply
               </button>
               {% endif %}
             </div>
