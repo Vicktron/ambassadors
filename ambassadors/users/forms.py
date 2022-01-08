@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 from .models import Account, Profile, User
 
@@ -47,7 +47,7 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Password does not match!')
 
 
-class LoginForm(forms.Form):
+class LoginForm(AuthenticationForm):
     email = forms.CharField(
         widget=forms.EmailInput(
             attrs={
