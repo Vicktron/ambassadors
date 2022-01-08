@@ -85,19 +85,8 @@ def signup_view(request):
                 # Saves registered profile to database
                 registered_profile.save()
                 
-                # Authenticate registered user
-                user = authenticate(
-                    username=email, password=confirm_password
-                )
-                
-                # Checks if the user exists
-                if user is not None:
-                    
-                    # Logs the user in
-                    login(registered_user)
-                
-                    # Redirects user to the dashboard
-                    return redirect("users:main-view")
+                # Redirects user to the login page
+                return redirect("users:login")
                 
             else:
                 userform.save()
@@ -115,6 +104,33 @@ def signup_view(request):
     }
     print("Recommended By Profile: ", recommended_by_profile.fullname())
     return render(request, 'page/signup.html', context)
+
+
+def login_page(request):
+    
+    # Get email and password from POST request
+    email = request.POST.get("email")
+    password = request.POST.get("password")
+    
+    # Authenticates user with the above credentials
+    user = authenticate(
+        username=email, password=password
+    )
+    
+    # Checks if the user exists
+    if user is not None:
+        
+        # Logs the user in
+        login(request, user)
+        
+        # Redirecct user to the dashboard page
+        redirect("users:reccommendations")
+    
+    # If the user doesn't exist
+    else:
+        
+        # Redirects user back to the login page
+        redirect("users:sign-in")
 
 
 def main_view(request, *args, **kwargs):
