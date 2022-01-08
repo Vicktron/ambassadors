@@ -2,7 +2,7 @@ from django.core.checks import messages
 from django.shortcuts import render
 from django.shortcuts import redirect, render
 from .models import Account
-from .forms import RegistrationForm, UserForm
+from .forms import LoginForm, RegistrationForm, UserForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import get_user_model
 
@@ -86,7 +86,7 @@ def signup_view(request):
                 registered_profile.save()
                 
                 # Redirects user to the login page
-                return redirect("users:login")
+                return redirect("users:sign-in")
                 
             else:
                 userform.save()
@@ -108,29 +108,52 @@ def signup_view(request):
 
 def login_page(request):
     
-    # Get email and password from POST request
-    email = request.POST.get("email")
-    password = request.POST.get("password")
-    
-    # Authenticates user with the above credentials
-    user = authenticate(
-        username=email, password=password
-    )
-    
-    # Checks if the user exists
-    if user is not None:
+    # Login form
+    form = LoginForm()
         
-        # Logs the user in
-        login(request, user)
+    if request.method == "POST":
         
-        # Redirecct user to the dashboard page
-        redirect("users:reccommendations")
-    
-    # If the user doesn't exist
-    else:
+        # Login form with POST request
+        form = LoginForm(request.POST)
         
-        # Redirects user back to the login page
-        redirect("users:sign-in")
+        # Check if form is valid
+        if form.is_valid():
+        
+            # Get email and password from form POST request
+            email = form.cleaned_data.get("email")
+            password = form.cleaned_data.get("password")
+            
+            print("Email: ", email)
+            print("Password: ", password)
+            
+            # Get user with the above email
+            user = User.objects.get(email=email)
+            
+            # Authenticates user with the above credentials
+            user = authenticate(
+                request, username=user.email, password=user.password
+            )
+            print("User: ", user)
+            
+            # Checks if the user exists
+            if user is not None:
+                
+                # Logs the user in
+                login(request, user)
+                
+                # Redirecct user to the dashboard page
+                redirect("users:recommendations")
+            
+            # If the user doesn't exist
+            else:
+                
+                print("User doesn't exist!")
+                # Redirects user back to the login page
+                redirect("users:sign-in")
+    context = {
+        "form": form
+    }
+    return render(request, "page/login.html", context)
 
 
 def main_view(request, *args, **kwargs):
