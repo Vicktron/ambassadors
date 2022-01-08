@@ -91,16 +91,13 @@ def signup_view(request):
                 )
                 
                 # Checks if the user exists
-                if user:
+                if user is not None:
                     
                     # Logs the user in
                     login(registered_user)
                 
-                # Redirects user to the dashboard with a success message
-                messages.success(
-                    request, "Account created successfully!"
-                )
-                return redirect("")
+                    # Redirects user to the dashboard
+                    return redirect("users:main-view")
                 
             else:
                 userform.save()
