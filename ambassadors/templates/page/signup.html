@@ -58,51 +58,68 @@
         <div class="formbg-outer">
           <div class="formbg">
             <div class="formbg-inner padding-horizontal--48">
-              <span class="padding-bottom--15">Referred By [{{ recommended_by_profile.full_name }}]</span>
-              <form method="post" id="stripe-login">
+              {% if recommended_by_profile %}
+              <span class="padding-bottom--15">Referred By [{{ recommended_by_profile.fullname }}]</span>              
+              {% elif recommended_by_profile is None %}
+              <span class="padding-bottom--15">Referred By [{{ recommended_by_profile.fullname }}]</span>              
+              {% endif %}
+              
+              <form method="POST" id="stripe-login">
                 {% csrf_token %}
+
                 <div class="field padding-bottom--24">
                   <label for="f_name">First Name</label>
                   {{form.f_name}}
                 </div>
+
                 <div class="field padding-bottom--24">
                   <label for="l_name">Last Name</label>
                   {{form.l_name}}
                 </div>
+
                 <div class="field padding-bottom--24">
                   <label for="email">Email</label>
                   {{userform.email}}
                 </div>
+
                 <div class="field padding-bottom--24">
                   <label for="tel">Tel</label>
                   {{form.tel}}
                 </div>
+
                 <div class="field padding-bottom--24">
                   <label for="amt_wallet">AMT Wallet</label>
                   {{form.amt_wallet}}
                 </div>
+
                 <div class="field padding-bottom--24">
                   <label for="amt_staked">$AMT Staked</label>
                   {{form.amt_staked}}
                 </div>
+
                 <div class="field padding-bottom--24">
                   <label for="usd_staked">$USD Staked</label>
                   {{form.usd_staked}}
                 </div>
+
                 <div class="field padding-bottom--24">
                   <label for="password">Password</label>
                   {{userform.password}}
                 </div>
+
                 <div class="field padding-bottom--24">
                   <label for="password">Password</label>
                   {{userform.confirm_password}}
                 </div>
+
                 <div class="field padding-bottom--24">
                   <input type="submit" name="submit" value="Continue">
                 </div>
+
               </form>
             </div>
           </div>
+
           <div class="footer-link padding-top--24">
             <span>Have an account? <a href=" {% static '' %} ">Log In</a></span>
             <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
