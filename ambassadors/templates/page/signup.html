@@ -12,7 +12,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Ambassadors: Sign in</title>
+  <title>Ambassadors: Sign Up</title>
   <link rel="stylesheet" type="text/css" href=" {% static 'css/signupstyle.css' %} ">
 </head>
 
@@ -58,7 +58,7 @@
         <div class="formbg-outer">
           <div class="formbg">
             <div class="formbg-inner padding-horizontal--48">
-              <span class="padding-bottom--15">Referred By Victor Isaac</span>
+              <span class="padding-bottom--15">Referred By [{{ recommended_by_profile.full_name }}]</span>
               <form method="post" id="stripe-login">
                 {% csrf_token %}
                 <div class="field padding-bottom--24">
