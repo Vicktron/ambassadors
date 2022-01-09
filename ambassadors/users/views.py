@@ -61,7 +61,7 @@ def dashboard(request):
     for stake in my_recs:
         ref_amt = stake.amt_staked
         ref_percentage = ref_amt * 2/100
-
+    # Calculate the percent of AMT, USD Pooled and points gathered for users
     downline_percentage = (count/1000) * 100
     amount = referrals.usd_pooled
     points = int(amount/33.33)
