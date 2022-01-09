@@ -115,6 +115,7 @@ def login_page(request):
         
         # Login form with POST request
         form = LoginForm(request.POST)
+        print("Is Form Valid: ", form.is_valid())
         
         # Check if form is valid
         if form.is_valid():
