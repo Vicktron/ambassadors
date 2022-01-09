@@ -141,5 +141,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.user.get_full_name()
 
-    def fulllocation(self):
+    def full_location(self):
         return f"{self.city}, {self.state}, {self.country}"
+
+
