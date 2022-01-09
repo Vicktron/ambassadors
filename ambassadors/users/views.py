@@ -180,8 +180,7 @@ def dashboard(request):
     for stake in my_recs:
         ref_amt = stake.amt_staked
         ref_percentage = ref_amt * 2/100
-
-    # 
+        
     downline_percentage = (count/1000) * 100
     amount = referrals.usd_pooled
     points = amount / 200000
