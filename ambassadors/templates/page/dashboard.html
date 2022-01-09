@@ -280,8 +280,8 @@
           </div>
         </div>
         <p class="message-line">
-          {{ user.fullname }} staked $AMT{{ user.amt_staked }} at ${{ user.usd_staked }},
-          and you received $AMT{{ ref_percentage}} for referral. Keep it Up 🔥🔥🔥
+          {{ user.fullname }} staked $AMT{{ user.amt_staked|intcomma }} at ${{ user.usd_staked|intcomma }},
+          and you received $AMT{{ ref_percentage|intcomma }} for referral. Keep it Up! 🔥🔥🔥
         </p>
         <p class="message-line time">
           {{ user.created|timesince }} ago
