@@ -47,7 +47,7 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Password does not match!')
 
 
-class LoginForm(AuthenticationForm):
+class LoginForm(forms.Form):
     email = forms.CharField(
         widget=forms.EmailInput(
             attrs={

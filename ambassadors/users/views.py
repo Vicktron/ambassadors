@@ -7,12 +7,10 @@ from .forms import LoginForm, RegistrationForm, UserForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import get_user_model
 
-
 User = get_user_model()
 
 
 def signup_view(request):
-
     # Get referral user id
     profile_id = request.session.get('ref_profile')
     print("Referral ID: ", profile_id)
@@ -46,10 +44,10 @@ def signup_view(request):
                 if password is True:
 
                     # Create user
-                    user = User.objects.create(
-                        email=email,
-                        password=confirm_password
-                    )
+                    user = User.objects.create_user(
+                                                    email=email,
+                                                    password=confirm_password
+                                                    )
 
                     # Set user password
                     user.password = user.set_password(confirm_password)
@@ -59,9 +57,8 @@ def signup_view(request):
                     # If it doesn't, redirect the user back to the sign up page
                     # with an error message telling them that their password
                     # does not match and should try again!
-                    messages.error(request, "Password does not match. Try again!")
+                    messages.Error(request, "Password does not match. Try again!")
                     return redirect("users:signup")
-
 
                 # Gets user with the instance --> email
                 registered_user = User.objects.get(email=email)
@@ -163,7 +160,6 @@ def signup_view(request):
 #     return render(request, "page/login.html", context)
 
 def login_page(request):
-
     form = LoginForm(request.POST or None)
 
     if request.method == "POST":
@@ -186,6 +182,7 @@ def login_page(request):
             messages.Error(request, 'Error validating the form')
 
     return render(request, "page/login.html", {"form": form})
+
 
 def main_view(request, *args, **kwargs):
     code = str(kwargs.get('ref_code'))
@@ -210,9 +207,9 @@ def dashboard(request):
 
     for stake in my_recs:
         ref_amt = stake.amt_staked
-        ref_percentage = ref_amt * 2/100
+        ref_percentage = ref_amt * 2 / 100
 
-    downline_percentage = (count/1000) * 100
+    downline_percentage = (count / 1000) * 100
     amount = referrals.usd_pooled
     points = amount / 33.33
     points_percentage = points / 6000 * 100

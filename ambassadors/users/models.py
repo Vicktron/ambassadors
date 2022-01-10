@@ -7,28 +7,17 @@ from django.db import models
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, f_name, l_name, password=None, is_admin=False, is_staff=False,
-                    is_active=True):
+    def create_user(self, email, password=None):
         if not email:
-            raise ValueError("User must have an email")
-        if not password:
-            raise ValueError("User must have a password")
-        if not f_name:
-            raise ValueError("User must have a first name")
-        if not l_name:
-            raise ValueError("User must have a first name")
+            raise ValueError('Please provide valid email address.')
 
         user = self.model(
-            email=self.normalize_email(email)
+            email=self.normalize_email(email),
         )
-        user.id = id
-        user.f_name = f_name
-        user.l_name = l_name
-        user.set_password(password)  # change password to hash
-        user.admin = is_admin
-        user.staff = is_staff
-        user.active = is_active
+
+        user.set_password(password)
         user.save(using=self._db)
+
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
