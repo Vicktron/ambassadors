@@ -10,6 +10,6 @@ urlpatterns = [
     path('', main_view, name='main-view'),
     path('sign-up/', signup_view, name='signup'),
     path('sign-in/', login_page, name="sign-in"),
-    path('dashboard/', dashboard, name='recommendations'),
+    path('dashboard/', dashboard, name='dashboard'),
     path('<str:ref_code>/', main_view, name='main-view'),
 ]

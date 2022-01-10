@@ -56,7 +56,7 @@ class User(AbstractBaseUser):
     date_joined = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    # REQUIRED_FIELDS = []
 
     def __str__(self):
         return f"{self.email}"
@@ -122,6 +122,17 @@ class Account(models.Model):
             if profile.recommended_by == self.user:
                 my_recs.append(profile)
         return my_recs
+
+    # def get_generation(self):
+    #     # get the down lines of a particular user
+    #     qs = Account.get_recommended_profiles(self)
+    #     my_downlines = []
+    # #     Add all user downlines to a list
+    #     for user in qs:
+    #         # DO an upstream search
+    #         if user.email is in
+
+
 
     def save(self, *args, **kwargs):
         if self.code == "":
