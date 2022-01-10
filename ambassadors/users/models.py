@@ -85,7 +85,7 @@ class User(AbstractBaseUser):
 
 
 class Account(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='ambassador')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ambassador')
     f_name = models.CharField(max_length=50)
     l_name = models.CharField(max_length=50)
     amt_wallet = models.CharField(max_length=100)
