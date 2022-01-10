@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 from .base import *  # noqa
 from .base import env
 
@@ -10,24 +12,37 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["ambassador.agromatic.
 
 # DATABASES
 # ------------------------------------------------------------------------------
-DATABASES["default"] = env.db("DATABASE_URL")  # noqa F405
-DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
-DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # noqa F405
+# DATABASES
+# ------------------------------------------------------------------------------
+if os.getenv("DATABASE_URL", "") != "":
+    r = urlparse(os.environ.get("DATABASE_URL"))
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.path.relpath(r.path, "/"),
+            'USER': r.username,
+            'HOST': r.hostname,
+            'PASSWORD': r.password,
+            'PORT': r.port,
+            'OPTIONS': {'sslmode': 'require'},
+        }
+    }
+
 
 # CACHES
 # ------------------------------------------------------------------------------
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env("REDIS_URL"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # Mimicing memcache behavior.
-            # https://github.com/jazzband/django-redis#memcached-exceptions-behavior
-            "IGNORE_EXCEPTIONS": True,
-        },
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": env("REDIS_URL"),
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             # Mimicing memcache behavior.
+#             # https://github.com/jazzband/django-redis#memcached-exceptions-behavior
+#             "IGNORE_EXCEPTIONS": True,
+#         },
+#     }
+# }
 
 # SECURITY
 # ------------------------------------------------------------------------------

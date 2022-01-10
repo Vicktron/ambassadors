@@ -1,4 +1,5 @@
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.core.checks import messages
 from django.shortcuts import render
 from django.shortcuts import redirect, render
@@ -183,6 +184,11 @@ def login_page(request):
 
     return render(request, "page/login.html", {"form": form})
 
+@login_required
+def logout(request):
+    auth.logout(request)
+    messages.Info(request, 'Your are logged out.')
+    return redirect('users:sign-in')
 
 def main_view(request, *args, **kwargs):
     code = str(kwargs.get('ref_code'))
